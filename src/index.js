@@ -1,3 +1,2 @@
-export const testFunc = (value) => {
-	console.log("TEST FUNCTION", value);
-};
+export * from "./helpers/takeScreenshot";
+export * from "./hooks/useVideoCapture";
