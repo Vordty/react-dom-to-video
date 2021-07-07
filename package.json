@@ -23,6 +23,8 @@
 		"dist"
 	],
 	"dependencies": {
+		"@ffmpeg/core": "^0.10.0",
+		"@ffmpeg/ffmpeg": "^0.10.0",
 		"html2canvas": "^1.0.0"
 	}
 }
