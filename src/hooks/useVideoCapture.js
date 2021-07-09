@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import { takeScreenshot } from "../helpers/takeScreenshot";
 import { writeImage } from "../helpers/writeImage";
-import { generateVideo } from "../helpers/generateVideo";
+import { stitchFramesToVideo, downloadVideo } from "../helpers/videoManipulation";
 
 import { createFFmpeg } from "@ffmpeg/ffmpeg";
 
@@ -10,6 +10,7 @@ let ffmpeg;
 
 export const useVideoCapture = (node, trigger, options) => {
 	const [frames, setFrames] = useState([]);
+	const [videoSource, setVideoSource] = useState();
 	const [isWatching, setIsWatching] = useState(false);
 
 	useEffect(() => {
@@ -27,33 +28,46 @@ export const useVideoCapture = (node, trigger, options) => {
 	useEffect(() => {
 		if (isWatching) {
 			console.log("NODE TO CAPTURE", node);
-			addFrame();
+			generateFrame(options?.frame);
 			return;
 		}
 	}, [trigger]);
 
-	const addFrame = async () => {
-		const image = await takeScreenshot(node, {
-			html2canvas: { proxy: "http://localhost:5000/" },
-		});
-		const imageFilePath = await writeImage(image, frames.length, ffmpeg, {});
-		setFrames((frames) => [
-			...frames,
-			{
-				src: image,
-				path: imageFilePath,
-			},
-		]);
-		console.log("imageFilePath", imageFilePath);
+	const generateFrame = async (frameOptions = {}) => {
+		const image = await takeScreenshot(node, {});
+		const imageObject = addFrame(image, frameOptions);
+
+		return imageObject;
 	};
 
-	const exportVideo = () => {
+	const addFrame = async (image, frameOptions = {}) => {
+		const imageFilePath = await writeImage(image, frames.length, ffmpeg, frameOptions);
+		const imageObject = {
+			src: image,
+			path: imageFilePath,
+		};
+
+		setFrames((frames) => [...frames, imageObject]);
+
+		console.log("imageObject", imageObject);
+		return imageObject;
+	};
+
+	const generateVideo = async (options = {}) => {
 		stopWatching();
-		generateVideo(
+
+		const videoSource = await stitchFramesToVideo(
 			ffmpeg,
 			frames.map((frame) => frame.path),
-			{},
+			options,
 		);
+
+		setVideoSource(videoSource);
+		return videoSource;
+	};
+
+	const exportVideo = (videoSource, options = {}) => {
+		downloadVideo(videoSource, options);
 	};
 
 	const startWatching = () => {
@@ -68,7 +82,10 @@ export const useVideoCapture = (node, trigger, options) => {
 		isWatching,
 		startWatching,
 		stopWatching,
-		addFrame,
+		frames,
+		generateFrame,
+		videoSource,
+		generateVideo,
 		exportVideo,
 	};
 };
