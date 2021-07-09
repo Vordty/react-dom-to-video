@@ -1,4 +1,4 @@
-export const generateVideo = async (ffmpeg, images, options) => {
+export const stitchFramesToVideo = async (ffmpeg, images, options) => {
 	const { prefix = "frame", type = "png" } = options;
 
 	if (!ffmpeg.isLoaded()) await ffmpeg.load();
@@ -6,7 +6,7 @@ export const generateVideo = async (ffmpeg, images, options) => {
 	// run image array buffers to a video conversion
 	await ffmpeg.run(
 		"-framerate",
-		"1",
+		`${framerate}`,
 		"-f",
 		"image2",
 		"-i",
@@ -19,22 +19,28 @@ export const generateVideo = async (ffmpeg, images, options) => {
 		"15",
 		"-row-mt",
 		"1",
-		"abcd.webm",
+		`${filename}.webm`,
 	);
 
-	const outputVideoBinary = ffmpeg.FS("readFile", "abcd.webm");
+	const outputVideoBinary = ffmpeg.FS("readFile", `${filename}.webm`);
 
 	images.forEach((filename) => {
 		ffmpeg.FS("unlink", filename);
 	});
-	ffmpeg.FS("unlink", "abcd.webm");
+	ffmpeg.FS("unlink", `${filename}.webm`);
 
 	const videoSource = URL.createObjectURL(
 		new Blob([outputVideoBinary.buffer], { type: "video/webm" }),
 	);
 
+	return videoSource;
+};
+
+export const downloadVideo = (videoSource, options) => {
+	const { filename } = options;
+
 	const linkElement = document.createElement("a");
 	linkElement.href = videoSource;
-	linkElement.download = "abcd.webm";
+	linkElement.download = `${filename}.webm`;
 	linkElement.click();
 };
