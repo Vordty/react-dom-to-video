@@ -5,7 +5,7 @@ export const writeImage = async (image, index, ffmpeg, options) => {
 
 	const arrayBuffer = convertDataURIToBinary(image);
 
-	const filepath = `${filename}-${index.toString().padStart(3, "0")}.${filetype}`;
+	const filepath = `${filename}-${index.toString().padStart(7, "0")}.${filetype}`;
 	await ffmpeg.FS("writeFile", filepath, arrayBuffer);
 
 	return filepath;

@@ -6,7 +6,6 @@ export const stitchFramesToVideo = async (ffmpeg, frames, options) => {
 
 	if (!ffmpeg.isLoaded()) await ffmpeg.load();
 
-	// run image array buffers to a video conversion
 	await ffmpeg.run(
 		"-framerate",
 		`${framerate}`,

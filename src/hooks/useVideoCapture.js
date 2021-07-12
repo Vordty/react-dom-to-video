@@ -6,6 +6,7 @@ import { writeImage } from "../helpers/writeImage";
 import { stitchFramesToVideo, downloadVideo } from "../helpers/videoManipulation";
 
 import { normalizeOptions } from "../helpers/common/formatters";
+import { FFMPEG_CORE_PATH } from "../constants";
 
 let ffmpeg;
 
@@ -19,7 +20,7 @@ export const useVideoCapture = (node, trigger, options) => {
 	useEffect(() => {
 		const setupFFMPEG = async () => {
 			ffmpeg = createFFmpeg({
-				corePath: "https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js",
+				corePath: FFMPEG_CORE_PATH,
 				log: true,
 			});
 			if (!ffmpeg?.isLoaded()) await ffmpeg.load();
@@ -30,9 +31,7 @@ export const useVideoCapture = (node, trigger, options) => {
 
 	useEffect(() => {
 		if (isWatching) {
-			console.log("NODE TO CAPTURE", node);
 			generateFrame();
-			return;
 		}
 	}, [trigger]);
 

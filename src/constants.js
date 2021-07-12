@@ -13,3 +13,5 @@ export const DEFAULT_OPTIONS = {
 		mime: "video/webm",
 	},
 };
+
+export const FFMPEG_CORE_PATH = "https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js";
