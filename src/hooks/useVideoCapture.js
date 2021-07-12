@@ -5,7 +5,7 @@ import { takeScreenshot } from "../helpers/takeScreenshot";
 import { writeImage } from "../helpers/writeImage";
 import { stitchFramesToVideo, downloadVideo } from "../helpers/videoManipulation";
 
-import { normalizeOptions } from "../helpers/common/validators";
+import { normalizeOptions } from "../helpers/common/formatters";
 
 let ffmpeg;
 
