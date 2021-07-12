@@ -1,9 +1,6 @@
 import html2canvas from "html2canvas";
 
 export const takeScreenshot = (node, options) => {
-	if (!options?.html2canvas) options.html2canvas = {};
-	if (!options?.export) options.export = {};
-
 	if (!node) {
 		throw new Error("Provided node missing.");
 	}
@@ -25,7 +22,7 @@ export const takeScreenshot = (node, options) => {
 
 			croppedCanvasContext.drawImage(canvas, cropPositionLeft, cropPositionTop);
 
-			const { type = "image/png", quality = 1 } = options?.export;
+			const { type = "image/png", quality = 1 } = options?.frame;
 
 			const base64Image = croppedCanvas.toDataURL(type, quality);
 
