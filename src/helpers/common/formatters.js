@@ -1,4 +1,4 @@
-import { DEFAULT_OPTIONS } from "../constants";
+import { DEFAULT_OPTIONS } from "../../constants";
 
 export const normalizeOptions = (options) => {
 	const outputOptions = {};
