@@ -1,14 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { createFFmpeg } from "@ffmpeg/ffmpeg";
 
 import { takeScreenshot } from "../helpers/takeScreenshot";
 import { writeImage } from "../helpers/writeImage";
 import { stitchFramesToVideo, downloadVideo } from "../helpers/videoManipulation";
 
-import { createFFmpeg } from "@ffmpeg/ffmpeg";
+import { normalizeOptions } from "../helpers/common/validators";
 
 let ffmpeg;
 
 export const useVideoCapture = (node, trigger, options) => {
+	const globalOptions = useMemo(() => normalizeOptions(options), [options]);
+
 	const [frames, setFrames] = useState([]);
 	const [videoSource, setVideoSource] = useState();
 	const [isWatching, setIsWatching] = useState(false);
@@ -28,20 +31,23 @@ export const useVideoCapture = (node, trigger, options) => {
 	useEffect(() => {
 		if (isWatching) {
 			console.log("NODE TO CAPTURE", node);
-			generateFrame(options?.frame);
+			generateFrame();
 			return;
 		}
 	}, [trigger]);
 
-	const generateFrame = async (frameOptions = {}) => {
-		const image = await takeScreenshot(node, {});
-		const imageObject = addFrame(image, frameOptions);
+	const generateFrame = async () => {
+		const image = await takeScreenshot(node, {
+			html2canvas: globalOptions.html2canvas,
+			frame: globalOptions.frame,
+		});
+		const imageObject = addFrame(image, globalOptions.frame);
 
 		return imageObject;
 	};
 
-	const addFrame = async (image, frameOptions = {}) => {
-		const imageFilePath = await writeImage(image, frames.length, ffmpeg, frameOptions);
+	const addFrame = async (image) => {
+		const imageFilePath = await writeImage(image, frames.length, ffmpeg, globalOptions.frame);
 		const imageObject = {
 			src: image,
 			path: imageFilePath,
@@ -49,25 +55,27 @@ export const useVideoCapture = (node, trigger, options) => {
 
 		setFrames((frames) => [...frames, imageObject]);
 
-		console.log("imageObject", imageObject);
 		return imageObject;
 	};
 
-	const generateVideo = async (options = {}) => {
+	const generateVideo = async () => {
 		stopWatching();
 
 		const videoSource = await stitchFramesToVideo(
 			ffmpeg,
 			frames.map((frame) => frame.path),
-			options,
+			{
+				frame: globalOptions.frame,
+				video: globalOptions.video,
+			},
 		);
 
 		setVideoSource(videoSource);
 		return videoSource;
 	};
 
-	const exportVideo = (videoSource, options = {}) => {
-		downloadVideo(videoSource, options);
+	const exportVideo = (videoSource, exportOptions) => {
+		downloadVideo(videoSource, exportOptions);
 	};
 
 	const startWatching = () => {
