@@ -1,32 +1,34 @@
 import html2canvas from "html2canvas";
 
-export const takeScreenshot = (node, options) => {
+export const takeScreenshot = async (node, options) => {
 	if (!node) {
 		throw new Error("Provided node missing.");
 	}
 
-	return html2canvas(node, {
-		...options?.html2canvas,
-	})
-		.then((canvas) => {
-			const croppedCanvas = document.createElement("canvas");
-			const croppedCanvasContext = croppedCanvas.getContext("2d");
+	try {
+		const canvas = await html2canvas(node, {
+			...options?.html2canvas,
+		});
 
-			const cropPositionTop = 0;
-			const cropPositionLeft = 0;
-			const cropWidth = canvas.width;
-			const cropHeight = canvas.height;
+		const croppedCanvas = document.createElement("canvas");
+		const croppedCanvasContext = croppedCanvas.getContext("2d");
 
-			croppedCanvas.width = cropWidth;
-			croppedCanvas.height = cropHeight;
+		const cropPositionTop = 0;
+		const cropPositionLeft = 0;
+		const cropWidth = canvas.width;
+		const cropHeight = canvas.height;
 
-			croppedCanvasContext.drawImage(canvas, cropPositionLeft, cropPositionTop);
+		croppedCanvas.width = cropWidth;
+		croppedCanvas.height = cropHeight;
 
-			const { type = "image/png", quality = 1 } = options?.frame;
+		croppedCanvasContext.drawImage(canvas, cropPositionLeft, cropPositionTop);
 
-			const base64Image = croppedCanvas.toDataURL(type, quality);
+		const { type = "image/png", quality = 1 } = options?.frame;
 
-			return base64Image;
-		})
-		.catch((error) => console.log(error));
+		const base64Image = croppedCanvas.toDataURL(type, quality);
+
+		return base64Image;
+	} catch (error) {
+		console.error(error);
+	}
 };
