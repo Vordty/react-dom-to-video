@@ -46,6 +46,11 @@ export const useVideoCapture = (node, trigger, options) => {
 	};
 
 	const addFrame = async (image) => {
+		if (!image) {
+			stopWatching();
+			throw new Error("Missing image to add as a frame.");
+		}
+
 		const imageFilePath = await writeImage(image, frames.length, ffmpeg, globalOptions.frame);
 		const imageObject = {
 			src: image,
@@ -59,6 +64,11 @@ export const useVideoCapture = (node, trigger, options) => {
 
 	const generateVideo = async () => {
 		stopWatching();
+
+		if (!(frames?.length > 0)) {
+			stopWatching();
+			throw new Error("Missing frames to begin conversion.");
+		}
 
 		const videoSource = await stitchFramesToVideo(
 			ffmpeg,
@@ -74,6 +84,11 @@ export const useVideoCapture = (node, trigger, options) => {
 	};
 
 	const exportVideo = (videoSource, exportOptions) => {
+		if (!videoSource) {
+			stopWatching();
+			throw new Error("Video source missing to export.");
+		}
+
 		downloadVideo(videoSource, exportOptions);
 	};
 
