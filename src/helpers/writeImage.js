@@ -1,14 +1,18 @@
 export const writeImage = async (image, index, ffmpeg, options) => {
 	const { filename = "frame", filetype = "png" } = options;
 
-	if (!ffmpeg.isLoaded()) await ffmpeg.load();
+	try {
+		if (!ffmpeg.isLoaded()) await ffmpeg.load();
 
-	const arrayBuffer = convertDataURIToBinary(image);
+		const arrayBuffer = convertDataURIToBinary(image);
 
-	const filepath = `${filename}-${index.toString().padStart(7, "0")}.${filetype}`;
-	await ffmpeg.FS("writeFile", filepath, arrayBuffer);
+		const filepath = `${filename}-${index.toString().padStart(7, "0")}.${filetype}`;
+		await ffmpeg.FS("writeFile", filepath, arrayBuffer);
 
-	return filepath;
+		return filepath;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
 const BASE64_MARKER = ";base64,";
