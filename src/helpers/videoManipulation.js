@@ -4,36 +4,42 @@ export const stitchFramesToVideo = async (ffmpeg, frames, options) => {
 	const { framerate, filename, filetype, mime } = options.video;
 	const { filename: frameFilename, filetype: frameFiletype } = options.frame;
 
-	if (!ffmpeg.isLoaded()) await ffmpeg.load();
+	try {
+		if (!ffmpeg.isLoaded()) await ffmpeg.load();
 
-	await ffmpeg.run(
-		"-framerate",
-		`${framerate}`,
-		"-f",
-		"image2",
-		"-i",
-		`${frameFilename}-%03d.${frameFiletype}`,
-		"-vcodec",
-		"libvpx-vp9",
-		"-b:v",
-		"0",
-		"-crf",
-		"15",
-		"-row-mt",
-		"1",
-		`${filename}.${filetype}`,
-	);
+		await ffmpeg.run(
+			"-framerate",
+			`${framerate}`,
+			"-f",
+			"image2",
+			"-i",
+			`${frameFilename}-%07d.${frameFiletype}`,
+			"-vcodec",
+			"libvpx-vp9",
+			"-b:v",
+			"0",
+			"-crf",
+			"15",
+			"-row-mt",
+			"1",
+			`${filename}.${filetype}`,
+		);
 
-	const outputVideoBinary = ffmpeg.FS("readFile", `${filename}.${filetype}`);
+		const outputVideoBinary = ffmpeg.FS("readFile", `${filename}.${filetype}`);
 
-	frames.forEach((filename) => {
-		ffmpeg.FS("unlink", filename);
-	});
-	ffmpeg.FS("unlink", `${filename}.${filetype}`);
+		frames.forEach((filename) => {
+			ffmpeg.FS("unlink", filename);
+		});
+		ffmpeg.FS("unlink", `${filename}.${filetype}`);
 
-	const videoSource = URL.createObjectURL(new Blob([outputVideoBinary.buffer], { type: mime }));
+		const videoSource = URL.createObjectURL(
+			new Blob([outputVideoBinary.buffer], { type: mime }),
+		);
 
-	return videoSource;
+		return videoSource;
+	} catch (error) {
+		console.error(error);
+	}
 };
 
 export const downloadVideo = (videoSource, options = {}) => {
