@@ -10,7 +10,7 @@ import { FFMPEG_CORE_PATH } from "../constants";
 
 let ffmpeg;
 
-export const useVideoCapture = (node, trigger, options) => {
+export const useVideoCapture = (node, trigger, options = {}) => {
 	const globalOptions = useMemo(() => normalizeOptions(options), [options]);
 
 	const [frames, setFrames] = useState([]);
@@ -21,7 +21,7 @@ export const useVideoCapture = (node, trigger, options) => {
 		const setupFFMPEG = async () => {
 			ffmpeg = createFFmpeg({
 				corePath: FFMPEG_CORE_PATH,
-				log: true,
+				log: false,
 			});
 			if (!ffmpeg?.isLoaded()) await ffmpeg.load();
 		};
