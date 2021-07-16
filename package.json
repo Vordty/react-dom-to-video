@@ -31,5 +31,13 @@
 	"dependencies": {
 		"@ffmpeg/ffmpeg": "^0.10.0",
 		"html2canvas": "^1.0.0"
-	}
+	},
+	"keywords": [
+		"react",
+		"DOM",
+		"video",
+		"DOM to video",
+		"video generation",
+		"DOM capture"
+	]
 }
