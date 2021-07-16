@@ -12,6 +12,9 @@ After specifying node that needs to be captured, It takes a screenshot of this s
 
 ## **Be Aware**
 
+-   Since WASM is relatively young some of the features used in this package are somewhat experimental and bound to change.
+-   FFMPEG.WASM performance is not great because of browser limitations. It is recommended to **NOT** use more than ~100 frames, 100+ frame image to video conversion will take a considerably long time.
+
 <br>
 
 ## **Installation**
