@@ -1,2 +1,3 @@
-export * from "./helpers/takeScreenshot";
-export * from "./hooks/useVideoCapture";
+import useVideoCapture from "./hooks/useVideoCapture";
+
+export default useVideoCapture;
