@@ -83,13 +83,13 @@ const useVideoCapture = (node, trigger, options = {}) => {
 		return videoSource;
 	};
 
-	const exportVideo = (videoSource, exportOptions) => {
+	const exportVideo = (videoSource) => {
 		if (!videoSource) {
 			stopWatching();
 			throw new Error("Video source missing to export.");
 		}
 
-		downloadVideo(videoSource, exportOptions);
+		downloadVideo(videoSource, globalOptions.video);
 	};
 
 	const startWatching = () => {
