@@ -11,8 +11,8 @@ export default {
 	output: [
 		{
 			file: pkg.main,
-			format: "cjs",
-			exports: "named",
+			format: "esm",
+			exports: "default",
 			sourcemap: true,
 			strict: false,
 		},
