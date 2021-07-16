@@ -10,7 +10,7 @@ import { FFMPEG_CORE_PATH } from "../constants";
 
 let ffmpeg;
 
-export const useVideoCapture = (node, trigger, options = {}) => {
+const useVideoCapture = (node, trigger, options = {}) => {
 	const globalOptions = useMemo(() => normalizeOptions(options), [options]);
 
 	const [frames, setFrames] = useState([]);
@@ -111,3 +111,5 @@ export const useVideoCapture = (node, trigger, options = {}) => {
 		exportVideo,
 	};
 };
+
+export default useVideoCapture;
