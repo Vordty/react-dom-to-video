@@ -1,14 +1,14 @@
 {
 	"name": "react-dom-to-video",
 	"version": "1.0.0",
-	"description": "",
+	"description": "React DOM to video generator",
 	"main": "dist/index.js",
 	"scripts": {
 		"build": "rollup -c",
 		"start": "rollup -c -w"
 	},
 	"author": "Vordty",
-	"license": "ISC",
+	"license": "MIT",
 	"peerDependencies": {
 		"react": "^17.0.2",
 		"react-dom": "^17.0.2"
