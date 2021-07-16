@@ -23,9 +23,9 @@ export const takeScreenshot = async (node, options) => {
 
 		croppedCanvasContext.drawImage(canvas, cropPositionLeft, cropPositionTop);
 
-		const { type = "image/png", quality = 1 } = options?.frame;
+		const { type = "image/png" } = options?.frame;
 
-		const base64Image = croppedCanvas.toDataURL(type, quality);
+		const base64Image = croppedCanvas.toDataURL(type, 1);
 
 		return base64Image;
 	} catch (error) {
