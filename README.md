@@ -44,25 +44,28 @@ useEffect(() => {
 }, []);
 
 return (
-    <div
-        ref={itemsContainer}
-        style={{ width: "450px", height: "450px", overflow: "hidden" }}
+    <div>
+        <div
+            ref={itemsContainer}
+            style={{ width: "450px", height: "450px", overflow: "hidden" }}
+            >
+                {items.map(item => (
+                    <div key={item}>{item}</div>
+                ))}
+        </div>
+
+        <button
+            onClick={async () => {
+                stopWatching();
+
+                const video = await generateVideo();
+                exportVideo(video);
+            }}
         >
-            {items.map(item => (
-                <div key={item}>{item}</div>
-            ))}
-    </div>
+            Export
+        </button>
+    <div>
 
-    <button
-        onClick={async () => {
-            stopWatching();
-
-            const video = await generateVideo();
-            exportVideo(video);
-        }}
-    >
-        Export
-    </button>
 )
 ```
 
