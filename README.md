@@ -68,11 +68,11 @@ return (
 
 ### **useVideoCapture Hook Inputs**
 
-|  Name   |             Description              |
-| :-----: | :----------------------------------: |
-|  node   |  DOM element that is being captured  |
-| trigger |   State that triggers screenshots    |
-| options | [View hook options](###Hook-Options) |
+|  Name   |                    Description                     |
+| :-----: | :------------------------------------------------: |
+|  node   |         DOM element that is being captured         |
+| trigger |          State that triggers screenshots           |
+| options | [View hook options](#useVideoCapture-Hook-Options) |
 
 ### **useVideoCapture Hook Output**
 
