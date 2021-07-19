@@ -27,9 +27,6 @@ export const stitchFramesToVideo = async (ffmpeg, frames, options) => {
 
 		const outputVideoBinary = ffmpeg.FS("readFile", `${filename}.${filetype}`);
 
-		frames.forEach((filename) => {
-			ffmpeg.FS("unlink", filename);
-		});
 		ffmpeg.FS("unlink", `${filename}.${filetype}`);
 
 		const videoSource = URL.createObjectURL(
