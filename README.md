@@ -37,8 +37,8 @@ const [items, setItems] = useState([]);
 
 const { startWatching, stopWatching, generateVideo, exportVideo } =
     useVideoCapture(
-        itemsContainer.current,
-        items,
+        itemsContainer.current, // node
+        items, // trigger
     );
 
 useEffect(() => {
@@ -64,6 +64,7 @@ return (
     <button
         onClick={async () => {
             stopWatching();
+
             const video = await generateVideo();
             exportVideo(video);
         }}
