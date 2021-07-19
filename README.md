@@ -2,28 +2,20 @@
 
 Small package that allows users to capture specific DOM elements as a video and export it.
 
-<br>
-
 ## **How does it work?**
 
 After specifying node that needs to be captured, It takes a screenshot of this specific DOM element using "html2canvas" package, screenshots can be triggered on state change and manually using the helper function. Collected frames/screenshots can be stitched together using "ffmpeg-wasm" to a video and exported when needed.
-
-<br>
 
 ## **Be Aware**
 
 -   Since WASM is relatively young some of the features used in this package are somewhat experimental and bound to change.
 -   FFMPEG.WASM performance is not great because of browser limitations. It is recommended to **NOT** use more than ~100 frames, 100+ frame image to video conversion will take a considerably long time.
 
-<br>
-
 ## **Installation**
 
 ```sh
 npm install react-dom-to-video
 ```
-
-<br>
 
 ## **Usage/Examples**
 
@@ -74,8 +66,6 @@ return (
 )
 ```
 
-<br>
-
 ### **useVideoCapture Hook Inputs**
 
 |  Name   |             Description              |
@@ -83,8 +73,6 @@ return (
 |  node   |  DOM element that is being captured  |
 | trigger |   State that triggers screenshots    |
 | options | [View hook options](###Hook-Options) |
-
-<br>
 
 ### **useVideoCapture Hook Output**
 
@@ -98,8 +86,6 @@ return (
 | generateVideo |           generates a video from collected frames           |
 |  videoSource  |                       generated video                       |
 |  exportVideo  |                downloads the selected video                 |
-
-<br>
 
 ### **useVideoCapture Hook Options**
 
