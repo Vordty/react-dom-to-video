@@ -10,6 +10,9 @@ After specifying node that needs to be captured, It takes a screenshot of this s
 
 -   Since WASM is relatively young some of the features used in this package are somewhat experimental and bound to change.
 -   FFMPEG.WASM performance is not great because of browser limitations. It is recommended to **NOT** use more than ~100 frames, 100+ frame image to video conversion will take a considerably long time.
+-   Since FFmpeg WASM is using the SharedArrayBuffer and it is only available to pages that are cross-origin
+    isolated. You need to host your own server with Cross-Origin-Embedder-Policy: require-corp and
+    Cross-Origin-Opener-Policy: same-origin headers to use this package.
 
 ## **Installation**
 
